@@ -9,6 +9,7 @@ from django.http import HttpResponseForbidden
 from .models import UserProfile
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required
 
 def list_books(request):
 	books = Book.objects.all()
@@ -90,5 +91,10 @@ def delete_book(request, book_id):
     if request.method == 'POST':
         book.delete()
         return redirect('book_list')  
+    
+    @permission_required('bookshelf.can_edit', raise_exception=True)
+def edit_view(request, pk):
+    # View code here
+
 
     return render(request, 'relationship_app/delete_book.html', {'book': book})
