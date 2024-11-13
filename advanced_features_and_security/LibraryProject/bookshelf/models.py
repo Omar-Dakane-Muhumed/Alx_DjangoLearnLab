@@ -1,7 +1,7 @@
- from django.contrib.auth.models import AbstractUser
-    from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-    class CustomUser(AbstractUser):
+class CustomUser(AbstractUser):
         # New field: Date of birth
         date_of_birth = models.DateField(null=True, blank=True)
         
@@ -29,3 +29,18 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
 
         return self.create_user(username, password, date_of_birth, profile_photo, **extra_fields)
+
+
+from django.db import models
+
+class Book(models.Model):
+    # Model fields
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view model"),
+            ("can_create", "Can create model"),
+            ("can_edit", "Can edit model"),
+            ("can_delete", "Can delete model"),
+        ]

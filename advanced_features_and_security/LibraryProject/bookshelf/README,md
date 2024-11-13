@@ -1,0 +1,19 @@
+
+
+"""  instructions for models.py file from django.db import models
+
+class YourModel(models.Model):
+    # Model fields
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view model"),
+            ("can_create", "Can create model"),
+            ("can_edit", "Can edit model"),
+            ("can_delete", "Can delete model"),
+        ]
+"""
+
+""" enforce permissions for views ........from django.contrib.auth.decorators import permission_required
+"""
