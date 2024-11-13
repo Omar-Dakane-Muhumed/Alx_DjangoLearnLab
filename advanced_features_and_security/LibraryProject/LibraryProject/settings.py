@@ -71,6 +71,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'LibraryProject.wsgi.application'
 
+AUTH_USER_MODEL = 'bookshelf.CustomUser'  # Replace 'yourapp' with your actual app name
+
+
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
