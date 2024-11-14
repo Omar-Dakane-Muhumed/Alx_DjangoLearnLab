@@ -8,3 +8,4 @@ to protect against Cross-Site Request Forgery (CSRF) attacks in a Django templat
     <!-- form fields -->
 </form>
 """
+["ExampleForm"]
