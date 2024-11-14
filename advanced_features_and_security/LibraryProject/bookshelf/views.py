@@ -9,3 +9,10 @@ def edit_view(request, pk):
 
 
 ["book_list", "raise_exception", "books"]
+
+
+# Instead of this (vulnerable to SQL injection)
+query = "SELECT * FROM books WHERE title = '%s'" % title
+
+# Use ORM like this:
+books = Book.objects.filter(title=title)
