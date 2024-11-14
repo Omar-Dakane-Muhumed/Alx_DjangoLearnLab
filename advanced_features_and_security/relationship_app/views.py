@@ -98,3 +98,10 @@ def edit_view(request, pk):
 
 
     return render(request, 'relationship_app/delete_book.html', {'book': book})
+
+
+# Instead of this (vulnerable to SQL injection)
+query = "SELECT * FROM books WHERE title = '%s'" % title
+
+# Use ORM like this:
+books = Book.objects.filter(title=title)
