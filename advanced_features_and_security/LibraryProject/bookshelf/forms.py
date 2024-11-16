@@ -18,3 +18,11 @@ from .models import Book
 
 class BookSearchForm(forms.Form):
     query = forms.CharField(max_length=100, required=False)
+
+
+from django import forms
+
+class BookSearchForm(forms.Form):
+    title = forms.CharField(max_length=100)
+
+

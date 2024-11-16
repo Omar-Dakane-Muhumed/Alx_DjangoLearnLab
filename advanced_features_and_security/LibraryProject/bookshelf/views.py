@@ -12,11 +12,14 @@ def edit_view(request, pk):
 
 
 
-
-# Secure version using Django ORM
-from .models import Book
+    from .forms import BookSearchForm
 
 def search_books(request):
-    title = request.GET.get('title', '')
-    books = Book.objects.filter(title__icontains=title)  # 'icontains' for case-insensitive partial matching
+    if request.method == 'POST':
+        form = BookSearchForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            books = Book.objects.filter(title__icontains=title)
+        else:
+            books = Book.objects.none()
     return render(request, 'bookshelf/book_list.html', {'books': books})
