@@ -23,3 +23,4 @@ def search_books(request):
         else:
             books = Book.objects.none()
     return render(request, 'bookshelf/book_list.html', {'books': books})
+["from .forms import ExampleForm"]
