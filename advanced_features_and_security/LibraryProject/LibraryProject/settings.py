@@ -92,7 +92,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'LibraryProject.wsgi.application'
 
-AUTH_USER_MODEL = 'bookshelf.CustomUser'  # Replace 'yourapp' with your actual app name
+AUTH_USER_MODEL = 'bookshelf.CustomUser'  # Replace 'booshelf' with your actual app name
 
 
 
