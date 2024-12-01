@@ -108,68 +108,7 @@ class BookListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     perform_classes = [ IsAuthenticated]
 
-["from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated"]
-
-
-from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
-class BookListView(generics.ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['title', 'author', 'publication_year']
-
-
-class BookListView(generics.ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['title', 'author', 'publication_year']
-    search_fields = ['title', 'author']
-
-
-class BookListView(generics.ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['title', 'author', 'publication_year']
-    search_fields = ['title', 'author']
-    ordering_fields = ['title', 'publication_year']
-
-class BookListView(generics.ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['title', 'author', 'publication_year']
-    search_fields = ['title', 'author']
-    ordering_fields = ['title', 'publication_year']
-    ordering = ['title']  # Default ordering
-
-
-from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics
-from .models import Book
-from .serializers import BookSerializer
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
-class BookListView(generics.ListAPIView):
-    """
-    API endpoint to retrieve a list of books with filtering, searching, and ordering capabilities.
-    """
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['title', 'author', 'publication_year']
-    search_fields = ['title', 'author']
-    ordering_fields = ['title', 'publication_year']
-    ordering = ['title']
-
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 # api/views.py
 from rest_framework.generics import ListAPIView
@@ -199,39 +138,30 @@ class BookListView(ListAPIView):
 
 from django_filters import rest_framework
 
-# api/views.py
-class BookListView(ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    pagination_class = BookPagination
-
-    filter_backends = [
-        filters.DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter,
-    ]
-    
-    # Define search fields
-    search_fields = ['title', 'author__name']
-    filterset_fields = ['title', 'author__name', 'publication_year']
-
+# views.py.............
+from rest_framework.generics import ListAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+from .models import Book
+from .serializers import BookSerializer
 
 class BookListView(ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    pagination_class = BookPagination
-
-    filter_backends = [
-        filters.DjangoFilterBackend,
-        SearchFilter,
-        OrderingFilter,
-    ]
-    
-    # Define search and filter fields
-    search_fields = ['title', 'author__name']
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['title', 'author__name', 'publication_year']
-    
-    # Define ordering fields
-    ordering_fields = ['title', 'publication_year']
-    ordering = ['title']  # Default ordering
 
+class BookListView(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['title', 'author__name', 'publication_year']
+    search_fields = ['title', 'author__name']  # Enable search on title and author name
+
+class BookListView(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['title', 'author__name', 'publication_year']
+    search_fields = ['title', 'author__name']
+    ordering_fields = ['title', 'publication_year']  # Allow ordering by title and publication year
