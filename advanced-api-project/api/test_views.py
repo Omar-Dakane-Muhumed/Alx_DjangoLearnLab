@@ -42,3 +42,9 @@ def test_delete_book(self):
     response = self.client.delete(self.url_detail(self.book1.id))
     self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
     self.assertEqual(Book.objects.count(), 1)
+    self.client.login()
+
+        def test_unauthenticated_access(self):
+        self.client.logout()
+        response = self.client.get("/api/books/")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
