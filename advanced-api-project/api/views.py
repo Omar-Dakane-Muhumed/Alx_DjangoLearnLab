@@ -106,3 +106,6 @@ class BookListView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    perform_classes = [ IsAuthenticated]
+
+"from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated"]
