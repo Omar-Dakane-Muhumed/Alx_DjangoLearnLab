@@ -197,7 +197,7 @@ class BookListView(ListAPIView):
     ]
     filterset_fields = ['title', 'author__name', 'publication_year']  # Define fields to filter
 
-
+from django_filters import rest_framework
 
 # api/views.py
 class BookListView(ListAPIView):
@@ -234,3 +234,4 @@ class BookListView(ListAPIView):
     # Define ordering fields
     ordering_fields = ['title', 'publication_year']
     ordering = ['title']  # Default ordering
+
