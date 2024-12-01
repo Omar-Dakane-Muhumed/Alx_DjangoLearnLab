@@ -169,3 +169,68 @@ class BookListView(generics.ListAPIView):
     search_fields = ['title', 'author']
     ordering_fields = ['title', 'publication_year']
     ordering = ['title']
+
+
+# api/views.py
+from rest_framework.generics import ListAPIView
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.pagination import PageNumberPagination
+from rest_framework import filters
+from .models import Book
+from .serializers import BookSerializer
+
+class BookPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 50
+
+class BookListView(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    pagination_class = BookPagination
+    
+    # Add filtering
+    filter_backends = [
+        filters.DjangoFilterBackend,  # Filtering
+        SearchFilter,  # Searching
+        OrderingFilter,  # Ordering
+    ]
+    filterset_fields = ['title', 'author__name', 'publication_year']  # Define fields to filter
+
+
+
+# api/views.py
+class BookListView(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    pagination_class = BookPagination
+
+    filter_backends = [
+        filters.DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
+    ]
+    
+    # Define search fields
+    search_fields = ['title', 'author__name']
+    filterset_fields = ['title', 'author__name', 'publication_year']
+
+
+class BookListView(ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    pagination_class = BookPagination
+
+    filter_backends = [
+        filters.DjangoFilterBackend,
+        SearchFilter,
+        OrderingFilter,
+    ]
+    
+    # Define search and filter fields
+    search_fields = ['title', 'author__name']
+    filterset_fields = ['title', 'author__name', 'publication_year']
+    
+    # Define ordering fields
+    ordering_fields = ['title', 'publication_year']
+    ordering = ['title']  # Default ordering
