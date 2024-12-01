@@ -98,3 +98,11 @@ class BookDeleteView(generics.DestroyAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+class BookListView(generics.ListCreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
