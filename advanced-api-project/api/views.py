@@ -165,7 +165,7 @@ class BookListView(ListAPIView):
     filterset_fields = ['title', 'author__name', 'publication_year']
     search_fields = ['title', 'author__name']
     ordering_fields = ['title', 'publication_year']  # Allow ordering by title and publication year
-filters.OrderingFilter
+    filters.OrderingFilter
 
 
 
@@ -192,27 +192,4 @@ class BookListView(ListAPIView):
     # Define ordering fields
     ordering_fields = ['title', 'publication_year']
     ordering = ['title']  # Default ordering
-
-
-from rest_framework import generics
-from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from .models import Book
-from .serializers import BookSerializer
-
-class BookListView(generics.ListAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-
-    # Enable filtering, searching, and ordering
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-
-    # Filtering options
-    filterset_fields = ['title', 'author__name', 'publication_year']  # Add any relevant fields
-
-    # Searching options
-    search_fields = ['title', 'author__name']
-
-    # Ordering options
-    ordering_fields = ['title', 'publication_year']
-    ordering = ['title']  # Default ordering
+    filters.SearchFilter()
