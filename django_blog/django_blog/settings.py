@@ -40,6 +40,18 @@ INSTALLED_APPS = [
     'blog',  # adding the blog app
 ]
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'blog_db',
+        'USER': 'your_username',  # Replace with your DB user
+        'PASSWORD': 'your_password',  # Replace with your DB password
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
