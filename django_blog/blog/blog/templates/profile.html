@@ -1,0 +1,7 @@
+
+<link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
+
+
+<h2>Profile</h2>
+<p>Welcome, {{ user.username }}!</p>
+<p><a href="{% url 'logout' %}">Logout</a></p>
