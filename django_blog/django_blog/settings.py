@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rje6*^535zvg6nv=*ns5+#(6)ykm&483qc-_r63=c6*(526+_$'
+SECRET_KEY = 'django-insecure-f7p5u68q!aoryk*pelh)&8fp!jcoz+c*93%c)e(8cs(hon!doj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,31 +37,32 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog',  # adding the blog app
+    'blog',
+]
+
+# In settings.py
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+TEMPLATES = [
+    {
+        'DIRS': [BASE_DIR / 'templates'],
+    },
 ]
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'blog_db',
-        'USER': 'your_username',  # Replace with your DB user
-        'PASSWORD': 'your_password',  # Replace with your DB password
+        'NAME': 'your_db_name',
+        'USER': 'your_username',
+        'PASSWORD': 'your_password',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
-
-STATIC_URL = '/static/'
-
-
-TEMPLATES = [
-    {
-    
-        'DIRS': [BASE_DIR / "templates"],
-        
-    },
-]
 
 
 MIDDLEWARE = [
@@ -75,8 +76,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_blog.urls'
-
-STATIC_URL = '/static/'
 
 TEMPLATES = [
     {

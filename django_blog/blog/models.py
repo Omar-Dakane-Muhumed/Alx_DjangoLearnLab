@@ -1,5 +1,6 @@
 
 
+
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -12,11 +13,3 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-
-
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(blank=True)
-
-
-# Ensure the user can change their email and optionally extend the user model to include more fields like a profile picture or bio.
