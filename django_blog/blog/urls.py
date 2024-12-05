@@ -40,3 +40,17 @@ urlpatterns = [
     path('comment/<int:pk>/delete/', views.CommentDeleteView.as_view(), name='comment_delete'),
 ]
 
+
+
+# Add tagging and search URLs in urls.py:
+
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('post/<int:pk>/', views.post_detail, name='post_detail'),
+    path('search/', views.post_search, name='post_search'),  # Search URL
+    path('tags/<slug:tag>/', views.posts_by_tag, name='posts_by_tag'),  # Filter posts by tag
+]
+
