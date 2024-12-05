@@ -1,0 +1,8 @@
+
+
+<h2>{% if object %}Edit Comment{% else %}Add Comment{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if object %}Update{% else %}Post{% endif %} Comment</button>
+</form>
