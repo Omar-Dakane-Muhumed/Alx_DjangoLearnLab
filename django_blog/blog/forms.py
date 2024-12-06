@@ -6,9 +6,10 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['content']
 
+
 from django import forms
-from taggit.forms import TagWidget
 from .models import Post
+from taggit.forms import TagWidget
 
 class PostForm(forms.ModelForm):
     class Meta:

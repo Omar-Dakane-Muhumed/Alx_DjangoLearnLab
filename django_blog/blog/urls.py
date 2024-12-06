@@ -54,3 +54,15 @@ urlpatterns = [
     path('tags/<slug:tag>/', views.posts_by_tag, name='posts_by_tag'),  # Filter posts by tag
 ]
 
+
+
+
+
+# ..............
+from django.shortcuts import render
+from .models import Post
+
+def posts_by_tag(request, tag):
+    posts = Post.objects.filter(tags__name=tag)
+    return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
+
