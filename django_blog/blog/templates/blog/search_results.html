@@ -1,10 +1,9 @@
 
 
 <h1>Search Results for "{{ query }}"</h1>
-<ul>
-    {% for post in results %}
-        <li><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></li>
-    {% empty %}
-        <p>No posts found.</p>
-    {% endfor %}
-</ul>
+{% for post in posts %}
+    <h2><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h2>
+    <p>{{ post.content|truncatewords:20 }}</p>
+{% empty %}
+    <p>No posts found.</p>
+{% endfor %}

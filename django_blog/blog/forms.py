@@ -6,15 +6,13 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['content']
 
-
 from django import forms
 from .models import Post
-from taggit.forms import TagWidget
 
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
         widgets = {
-            'tags': TagWidget(attrs={'class': 'form-control', 'placeholder': 'Add tags'}),
+            'tags': TagWidget(),  # Assuming this widget is predefined
         }
