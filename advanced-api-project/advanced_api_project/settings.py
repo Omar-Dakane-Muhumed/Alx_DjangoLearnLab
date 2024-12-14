@@ -26,7 +26,13 @@ SECRET_KEY = 'django-insecure-b@5uz&=$u6t_@)xe^=mcc9cz8-6_j%a(fo)*)y7hxfk9w5!%s$
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+}
 
 # Application definition
 

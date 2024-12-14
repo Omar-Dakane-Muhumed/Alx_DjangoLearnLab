@@ -1,3 +1,6 @@
+
+from .models import MyModel
+
 # api/views.py
 from rest_framework import generics
 from .models import Book
