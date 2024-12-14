@@ -7,6 +7,21 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers']
 
+lf, data):
+        """
+        Ensure the passwords match during validation.
+        """
+        if data.get('password') != data.get('confirm_password'):
+            raise serializers.ValidationError({"password": "Passwords do not match."})
+        return data
+
+    def create(self, validated_data):
+        """
+        Use create_user method to ensure the password is hashed.
+        """
+        validated_data.pop('confirm_password')  # Remove confirm_password before creating the user
+        return User.objects.create_user(**validated_data)
+
 
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
