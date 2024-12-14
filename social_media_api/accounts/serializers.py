@@ -7,18 +7,36 @@ class UserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers']
 
-class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
+
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+
+# Get the custom user model
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    # Explicitly declare password fields
+    password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
+    confirm_password = serializers.CharField(write_only=True, min_length=8, style={'input_type': 'password'})
 
     class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'password']
+        model = User
+        fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers', 'password', 'confirm_password']
+        extra_kwargs = {
+            'email': {'required': True},
+        }
+
+    def validate(self, data):
+        """
+        Ensure the passwords match during validation.
+        """
+        if data.get('password') != data.get('confirm_password'):
+            raise serializers.ValidationError({"password": "Passwords do not match."})
+        return data
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
-        )
-        Token.objects.create(user=user)
-        return user
+        """
+        Use create_user method to ensure the password is hashed.
+        """
+        validated_data.pop('confirm_password')  # Remove confirm_password before creating the user
+        return User.objects.create_user(**validated_data)
