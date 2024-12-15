@@ -129,3 +129,71 @@ class FeedView(generics.ListAPIView):
         following_users = user.following.all()  # Get all users the current user is following
         posts = Post.objects.filter(author__in=following_users).order_by('-created_at')  # Fetch posts from those users
         return posts
+
+
+
+#3...................
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from .models import Post, Like
+from notifications.models import Notification
+from .serializers import PostSerializer
+from django.shortcuts import get_object_or_404
+
+class LikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        # Check if the user has already liked the post
+        if Like.objects.filter(user=request.user, post=post).exists():
+            return Response({"detail": "You have already liked this post."}, status=400)
+
+        # Create the like
+        Like.objects.create(user=request.user, post=post)
+
+        # Create a notification for the post's author
+        Notification.objects.create(
+            recipient=post.author,
+            actor=request.user,
+            verb="liked your post",
+            target=post
+        )
+        return Response({"detail": "Post liked successfully."})
+
+class UnlikePostView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        like = Like.objects.filter(user=request.user, post=post).first()
+
+        if not like:
+            return Response({"detail": "You haven't liked this post."}, status=400)
+
+        like.delete()
+        return Response({"detail": "Like removed."})
+
+
+
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from .models import Notification
+from .serializers import NotificationSerializer
+
+class NotificationListView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = NotificationSerializer
+
+    def get_queryset(self):
+        return Notification.objects.filter(recipient=self.request.user).order_by('-timestamp')
+    
+class MarkNotificationReadView(generics.UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+
+    def perform_update(self, serializer):
+        # Mark notification as read
+        serializer.instance.is_read = True
+        serializer.instance.save()
