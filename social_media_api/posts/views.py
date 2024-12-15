@@ -237,3 +237,44 @@ class UnlikePostView(views.APIView):
         except Like.DoesNotExist:
             return Response({"error": "Like not found"}, status=status.HTTP_404_NOT_FOUND)
 
+
+
+#3333333
+from rest_framework import status, views, permissions
+from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
+from .models import Post, Like
+from notifications.models import Notification
+
+class LikePostView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, pk):
+        # Use get_object_or_404 to retrieve the Post
+        post = get_object_or_404(Post, pk=pk)
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if not created:
+            return Response({"message": "Post already liked"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Create a notification
+        if post.author != request.user:  # Avoid self-notifications
+            Notification.objects.create(
+                recipient=post.author,
+                actor=request.user,
+                verb="liked your post",
+                target=post
+            )
+        return Response({"message": "Post liked"}, status=status.HTTP_201_CREATED)
+
+class UnlikePostView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, pk):
+        # Use get_object_or_404 to ensure the post exists
+        post = get_object_or_404(Post, pk=pk)
+        try:
+            like = Like.objects.get(user=request.user, post=post)
+            like.delete()
+            return Response({"message": "Post unliked"}, status=status.HTTP_204_NO_CONTENT)
+        except Like.DoesNotExist:
+            return Response({"error": "Like not found"}, status=status.HTTP_404_NOT_FOUND)
