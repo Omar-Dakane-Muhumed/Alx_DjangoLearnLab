@@ -182,8 +182,6 @@ class UserListView(generics.GenericAPIView):
         serializer = self.get_serializer(users, many=True)
         return Response(serializer.data)
 
-
-
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -228,3 +226,6 @@ class UserListView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
+
+["permissions.IsAuthenticated"]
