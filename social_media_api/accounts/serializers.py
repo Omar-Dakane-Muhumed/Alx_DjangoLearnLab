@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Generate a token for the user
         Token.objects.create(user=user)
         return user
-
+get_user_model().objects.create_user()
 # ...............................
 from rest_framework import serializers
 from .models import CustomUser
