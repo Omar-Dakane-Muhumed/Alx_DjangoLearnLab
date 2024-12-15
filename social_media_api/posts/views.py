@@ -105,3 +105,27 @@ class UserListView(generics.GenericAPIView):
         users = self.get_queryset()
         serializer = self.get_serializer(users, many=True)
         return Response(serializer.data)
+
+
+from rest_framework import generics, permissions
+from rest_framework.response import Response
+from .models import Post
+from accounts.models import CustomUser
+from .serializers import PostSerializer
+
+class FeedView(generics.ListAPIView):
+    """
+    View to get posts from users the current user is following.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        """
+        Returns posts from users that the current user is following,
+        ordered by creation date (most recent first).
+        """
+        user = self.request.user
+        following_users = user.following.all()  # Get all users the current user is following
+        posts = Post.objects.filter(author__in=following_users).order_by('-created_at')  # Fetch posts from those users
+        return posts
